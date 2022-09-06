@@ -18,10 +18,10 @@
 	if(!..())
 		return FALSE
 	for(var/obj/structure/destructible/clockwork/structure in get_turf(invoker))
-		to_chat(invoker, "<span class='brass'>Здесь уже есть [structure].</span>")
+		to_chat(invoker, span_brass("Здесь уже есть [structure]."))
 		return FALSE
 	for(var/obj/structure/destructible/clockwork/ocular_warden/AC in range(OCULAR_WARDEN_PLACE_RANGE))
-		to_chat(invoker, "<span class='nezbere'>Рядом есть еще один окулярный страж, размещение их слишком близко заставит их драться!</span>")
+		to_chat(invoker, span_nezbere("Рядом есть еще один окулярный страж, размещение их слишком близко заставит их драться!"))
 		return FALSE
 	return TRUE
 
@@ -29,7 +29,7 @@
 	name = "окулярный страж"
 	desc = "Широко открытый глаз, пристально смотрящий в вашу душу. Кажется, он устойчив к энергетическому оружию."
 	clockwork_desc = "Защитное устройство, которое будет бороться с любыми злоумышленниками поблизости."
-	break_message = "<span class='warning'>Черная слизь вытекает из окулярного стража, медленно вытекая на землю.</span>"
+	break_message = span_warning("Черная слизь вытекает из окулярного стража, медленно вытекая на землю.")
 	icon_state = "ocular_warden"
 	max_integrity = 60
 	armor = list("melee" = -80, "bullet" = -50, "laser" = 40, "energy" = 40, "bomb" = 20, "bio" = 0, "rad" = 0)

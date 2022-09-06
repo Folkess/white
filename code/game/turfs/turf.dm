@@ -76,9 +76,6 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	/// WARNING: Currently to use a density shortcircuiting this does not support dense turfs with special allow through function
 	var/pathing_pass_method = TURF_PATHING_PASS_DENSITY
 
-	var/turf/above_override = null
-	var/turf/below_override = null
-
 /turf/vv_edit_var(var_name, new_value)
 	var/static/list/banned_edits = list("x", "y", "z")
 	if(var_name in banned_edits)
@@ -127,7 +124,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 		add_overlay(GLOB.fullbright_overlay)
 
 	if(requires_activation)
-		ImmediateCalculateAdjacentTurfs()
+		CALCULATE_ADJACENT_TURFS(src)
 
 	if (light_power && light_range)
 		update_light()
@@ -163,7 +160,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 /turf/proc/set_temperature()
 
 /turf/proc/Initalize_Atmos(times_fired)
-	ImmediateCalculateAdjacentTurfs()
+	CALCULATE_ADJACENT_TURFS(src)
 
 /turf/Destroy(force)
 	. = QDEL_HINT_IWILLGC
@@ -317,7 +314,7 @@ GLOBAL_LIST_EMPTY(station_turfs)
 			break
 	if(prev_turf && !(flags & FALL_NO_MESSAGE))
 		for(var/mov_name in falling_mov_names)
-			prev_turf.visible_message("<span class='danger'>[mov_name] падает сквозь [prev_turf]!</span>")
+			prev_turf.visible_message(span_danger("[mov_name] падает сквозь [prev_turf]!"))
 	if(!(flags & FALL_INTERCEPTED) && zFall(falling, levels + 1))
 		return FALSE
 	for(var/atom/movable/falling_mov as anything in falling_movables)

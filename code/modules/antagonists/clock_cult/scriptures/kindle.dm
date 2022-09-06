@@ -31,8 +31,8 @@
 		var/mutable_appearance/forbearance = mutable_appearance('icons/effects/genetics.dmi', "servitude", -MUTATIONS_LAYER)
 		M.add_overlay(forbearance)
 		addtimer(CALLBACK(M, /atom/proc/cut_overlay, forbearance), 100)
-		M.visible_message("<span class='warning'>[M] просто смотрит, как поток энергии пролетает мимо него.</span>" , \
-									   "<span class='userdanger'>Ощущаю как вокруг меня пролетают обрывки энергии.</span>")
+		M.visible_message(span_warning("[M] просто смотрит, как поток энергии пролетает мимо него.") , \
+									   span_userdanger("Ощущаю как вокруг меня пролетают обрывки энергии."))
 		playsound(invoker, 'sound/magic/mm_hit.ogg', 50, TRUE)
 		return TRUE
 	//Blood Cultist Effect
@@ -44,7 +44,7 @@
 		M.color = LIGHT_COLOR_BLOOD_MAGIC
 		animate(M, color = mob_color, time = 300)
 		M.say("Fwebar uloft'gib mirlig yro'fara!")
-		to_chat(invoker, "<span class='brass'>Не вышло остановить [M]!</span>")
+		to_chat(invoker, span_brass("Не вышло остановить [M]!"))
 		playsound(invoker, 'sound/magic/mm_hit.ogg', 50, TRUE)
 		return TRUE
 	//Successful Invokation
@@ -53,7 +53,7 @@
 		if(!HAS_TRAIT(M, TRAIT_MINDSHIELD))
 			M.Paralyze(150)
 		else
-			to_chat(invoker, "<span class='brass'>[M] кажется несколько устойчивым к моим силам!</span>")
+			to_chat(invoker, span_brass("[M] кажется несколько устойчивым к моим силам!"))
 			M.set_confusion(clamp(M.get_confusion(), 50, INFINITY))
 	if(issilicon(M))
 		var/mob/living/silicon/S = M

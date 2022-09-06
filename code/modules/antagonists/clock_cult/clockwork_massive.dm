@@ -42,7 +42,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 		var/safe_place = find_safe_turf()
 		M.SetSleeping(50)
 		to_chat(M, "<span class='reallybig hypnophrase'>Разум искажается далеким звуком тысячи криков, прежде чем внезапно все замолкает.</span>")
-		to_chat(M, "<span class='hypnophrase'>Единственное, что я помню, это внезапное ощущение тепла и безопасности.</span>")
+		to_chat(M, span_hypnophrase("Единственное, что я помню, это внезапное ощущение тепла и безопасности."))
 		M.forceMove(safe_place)
 	STOP_PROCESSING(SSobj, src)
 	. = ..()
@@ -66,7 +66,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	if(!(flags_1 & NODECONSTRUCT_1))
 		if(!disassembled)
 			resistance_flags |= INDESTRUCTIBLE
-			visible_message("<span class='userdanger'>[src] начинает бесконтрольно пульсировать... надо бежать!</span>")
+			visible_message(span_userdanger("[src] начинает бесконтрольно пульсировать... надо бежать!"))
 			sound_to_playing_players(volume = 50, channel = CHANNEL_JUSTICAR_ARK, S = sound('sound/effects/clockcult_gateway_disrupted.ogg'))
 			for(var/mob/M in GLOB.player_list)
 				var/turf/T = get_turf(M)
@@ -101,7 +101,7 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	icon_state = "clockwork_gateway_charging"
 	for(var/datum/mind/M in GLOB.servants_of_ratvar)
 		SEND_SOUND(M.current, s)
-		to_chat(M, "<span class='big_brass'>Ковчег активирован, скоро нас заберут!</span>")
+		to_chat(M, span_big_brass("Ковчег активирован, скоро нас заберут!"))
 	addtimer(CALLBACK(GLOBAL_PROC, .proc/hierophant_message, "Призывайте \"Механическое вооружение\", используя механизм, чтобы получить мощную броню и оружие.", "Незбере", "nezbere", FALSE, FALSE), 10)
 	addtimer(CALLBACK(src, .proc/announce_gateway), 300)
 	addtimer(CALLBACK(src, .proc/recall_sound), 270)
@@ -174,10 +174,10 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	addtimer(CALLBACK(src, .proc/begin_ratvar_arrival), 2400)
 	START_PROCESSING(SSobj, src)
 	phase_messages = list(
-		"<span class='warning'>Слышу потусторонние звуки с севера.</span>" ,
-		"<span class='warning'>Ткань реальности извивается и изгибается.</span>" ,
-		"<span class='warning'>Разум гудит от страха.</span>" ,
-		"<span class='warning'>Слышу ужасающие крики отовсюду.</span>"
+		span_warning("Слышу потусторонние звуки с севера.") ,
+		span_warning("Ткань реальности извивается и изгибается.") ,
+		span_warning("Разум гудит от страха.") ,
+		span_warning("Слышу ужасающие крики отовсюду.")
 	)
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/begin_ratvar_arrival()
@@ -185,10 +185,10 @@ GLOBAL_LIST_INIT(clockwork_portals, list())
 	icon_state = "clockwork_gateway_closing"
 	addtimer(CALLBACK(src, .proc/ratvar_approaches), 1200)
 	phase_messages = list(
-		"<span class='warning'>Слышу потусторонние звуки с севера.</span>" ,
-		"<span class='brass'>Небесные врата проникают в разлом блюспейса!</span>" ,
-		"<span class='warning'>Реальность вздравгивает на мгновение...</span>" ,
-		"<span class='brass'>Чувствую, как время и пространство вокруг искажаются...</span>"
+		span_warning("Слышу потусторонние звуки с севера.") ,
+		span_brass("Небесные врата проникают в разлом блюспейса!") ,
+		span_warning("Реальность вздравгивает на мгновение...") ,
+		span_brass("Чувствую, как время и пространство вокруг искажаются...")
 	)
 
 /obj/structure/destructible/clockwork/massive/celestial_gateway/proc/ratvar_approaches()
@@ -252,7 +252,7 @@ GLOBAL_VAR(cult_ratvar)
 	. = ..()
 	desc = "[text2ratvar("Это Ратвар, Механический Юстициар. Великий воскрес.")]"
 	SEND_SOUND(world, 'sound/effects/ratvar_reveal.ogg')
-	to_chat(world, "<span class='ratvar'>Покров блюспейса уступает место Ратвару, его свет озарит всех смертных!</span>")
+	to_chat(world, span_ratvar("Покров блюспейса уступает место Ратвару, его свет озарит всех смертных!"))
 	UnregisterSignal(src, COMSIG_ATOM_BSA_BEAM)
 	INVOKE_ASYNC(GLOBAL_PROC, /proc/trigger_clockcult_victory, src)
 	check_gods_battle()
@@ -279,7 +279,7 @@ GLOBAL_VAR(cult_ratvar)
 		if(get_dist(src, ratvar_target) < 5)
 			if(next_attack_tick < world.time)
 				next_attack_tick = world.time + rand(50, 100)
-				to_chat(world, "<span class='danger'>[pick("Реальность вокруг меня содрогается.","Слышу как разрывается плоть.","Звук треска костей наполняет воздух.")]</span>")
+				to_chat(world, span_danger("[pick("Реальность вокруг меня содрогается.","Слышу как разрывается плоть.","Звук треска костей наполняет воздух.")]"))
 				SEND_SOUND(world, 'sound/magic/clockwork/ratvar_attack.ogg')
 				SpinAnimation(4, 0)
 				for(var/mob/living/M in GLOB.player_list)
@@ -287,10 +287,10 @@ GLOBAL_VAR(cult_ratvar)
 					M.Knockdown(10)
 				if(prob(max(GLOB.servants_of_ratvar.len/2, 15)))
 					SEND_SOUND(world, 'sound/magic/demon_dies.ogg')
-					to_chat(world, "<span class='ratvar'>Ты был дураком из-за того, что недооценил меня...</span>")
+					to_chat(world, span_ratvar("Ты был дураком из-за того, что недооценил меня..."))
 					qdel(ratvar_target)
 					for(var/datum/mind/M as() in SSticker.mode?.cult)
-						to_chat(M, "<span class='userdanger'>Чувствую колющую боль в груди... НЕТ!</span>")
+						to_chat(M, span_userdanger("Чувствую колющую боль в груди... НЕТ!"))
 						M.current?.dust()
 				return
 

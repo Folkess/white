@@ -42,7 +42,7 @@
 /mob/living/simple_animal/clockwork_marauder/Login()
 	. = ..()
 	add_servant_of_ratvar(src)
-	to_chat(src, "<span class='brass'>Можно заблокировать до 4 атак своим щитом, однако после этого потребуется ремонт сваркой.</span>")
+	to_chat(src, span_brass("Можно заблокировать до 4 атак своим щитом, однако после этого потребуется ремонт сваркой."))
 
 /mob/living/simple_animal/clockwork_marauder/death(gibbed)
 	. = ..()
@@ -56,7 +56,7 @@
 	//Block Ranged Attacks
 	if(shield_health > 0)
 		damage_shield()
-		to_chat(src, "<span class='warning'>Щит блокирует атаку.</span>")
+		to_chat(src, span_warning("Щит блокирует атаку."))
 		return BULLET_ACT_BLOCK
 	return ..()
 
@@ -66,13 +66,13 @@
 	shield_health --
 	playsound(src, 'sound/magic/clockwork/anima_fragment_attack.ogg', 60, TRUE)
 	if(shield_health == 0)
-		to_chat(src, "<span class='userdanger'>Щит ломается!</span>")
-		to_chat(src, "<span class='brass'>Нужна сварка для починки!</span>")
+		to_chat(src, span_userdanger("Щит ломается!"))
+		to_chat(src, span_brass("Нужна сварка для починки!"))
 
 /mob/living/simple_animal/clockwork_marauder/welder_act(mob/living/user, obj/item/I)
 	if(do_after(user, 25, target=src))
 		health = min(health + 10, maxHealth)
-		to_chat(user, "<span class='notice'>Чиню [src] немного.</span>")
+		to_chat(user, span_notice("Чиню [src] немного."))
 		if(shield_health < MARAUDER_SHIELD_MAX)
 			shield_health ++
 			playsound(src, 'sound/magic/charge.ogg', 60, TRUE)
